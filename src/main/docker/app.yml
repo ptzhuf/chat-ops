@@ -1,0 +1,20 @@
+version: '2'
+services:
+    chatops-app:
+        image: chatops
+        environment:
+            # - _JAVA_OPTIONS=-Xmx512m -Xms256m
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:mysql://chatops-mysql:3306/chatops?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - SPRING_DATA_JEST_URI=http://chatops-elasticsearch:9200
+        ports:
+            - 23524:23524
+    chatops-mysql:
+        extends:
+            file: mysql.yml
+            service: chatops-mysql
+    chatops-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: chatops-elasticsearch
